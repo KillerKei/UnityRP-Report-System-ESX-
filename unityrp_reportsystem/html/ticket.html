@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="grid.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+	<script type="text/javascript" src="main.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+
+<body>
+	<div id="tickets">
+		<div class="loading">
+			<div class="cnt">
+				<i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+				<span>loading</span>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="navigation">
+					<ul>
+						<li><a href="#" data-page="homepage">Home</a></li>
+						<li><a href="#" data-page="ticketspage">Tickets</a></li>
+						<li class="filler"></li>
+						<li><a href="#" class="little">Welcome Admin</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="body">
+
+
+					<div class="page active" id="homepage">
+
+
+						<div class="stats">
+
+							<div class="col-md-4">
+								<div class="stat">
+									<i class="fa fa-pause" style="color: orange; border-color: orange"></i>
+									<h2>{{ pending }} tickets pending</h2>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="stat">
+									<i class="fa fa-check" style="color: green; border-color: green"></i>
+									<h2>{{ controlled }} tickets controlled</h2>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="stat">
+									<i class="fa fa-ticket" style="color: #3949AB; border-color: #3949AB"></i>
+									<h2>{{ total }} total tickets</h2>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="page" id="ticketspage">
+						<div class="col-md-12">
+							<button class="cbtn" v-on:click="controlledTickets">View Controlled Tickets</button>
+							<br>
+							<table class="ctable">
+								<thead>
+									<tr>
+										<th>Issuer</th>
+										<th>IssuerID</th>
+										<th>Date</th>
+										<th>Content</th>
+										<th>More</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="report in reports">
+										<td>{{ report.issuer }}</td>
+										<td>{{ report.issuerid }}</td>
+										<td>{{ report.date }}</td>
+										<td>{{ report.content | trim }}...</td>
+										<td><button class="cbtn" v-on:click="openReport" :data-id="report.id">More</button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- Like, table of tickets and stuff -->
+					</div>
+
+					<div class="page" id="viewticket">
+						<!-- Form, and information and stuff -->
+						<div class="col-md-12">
+							<label>Issuer</label>
+							<input class="cform" type="text" id="issuer" :value="issuer" disabled>
+							<br>
+							<label>IssuerID</label>
+							<input class="cform" type="text" id="issuer" :value="issuerid" disabled>
+							<br>
+							<label>Date</label>
+							<input class="cform" type="text" id="date" :value="date" disabled>
+							<br>
+							<label>Content</label>
+							<textarea class="cform" type="text" id="content" disabled style="min-height: 100px; min-width: 100%;  max-width: 100%;">{{ content }}</textarea>
+							<br>
+							<label>Players Mentioned in Report</label>
+							<ul id="ids">
+								<li v-for="player in players">{{ player }}</li>
+							</ul>
+							<br>
+							<label>Controlled By</label>
+							<input class="cform" type="text" id="by" :value="by" disabled>
+							<br>
+							<label>Status</label>
+							<input class="cform" type="text" id="status" :value="status" disabled>
+							<button class="cbtn success" v-on:click="acceptReport" :data-id="id">Accept</button>
+							<button class="cbtn danger" v-on:click="denyReport" :data-id="id">Deny</button>
+							<button class="cbtn warning" v-on:click="deleteReport" :data-id="id">Delete</button>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="footer">
+					<p>Coded with <i class="fa fa-heart" style="color: red;"></i> by Keiron / UnityRP</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
